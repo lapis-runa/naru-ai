@@ -42,3 +42,4 @@ app/db/chroma_db/
 __pycache__/
 .venv/
 node_modules/
+
