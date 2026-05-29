@@ -8,3 +8,37 @@ wheels/
 
 # Virtual environments
 .venv
+
+# === 機密: 生の日記データは絶対にコミットしない ===
+app/db/raw.sqlite
+app/db/raw.sqlite.old1
+app/db/chroma_db/
+*.sqlite
+*.sqlite.old1
+*.enc
+
+# pencakeの元データ(もし置いていれば)
+**/pencake/
+
+# 環境・秘密
+.env
+.env.local
+
+# モデルキャッシュ(巨大)
+*.safetensors
+models/
+# private data
+app/db/raw.sqlite
+app/db/chroma_db/
+*.sqlite
+*.db
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# local
+__pycache__/
+.venv/
+node_modules/
