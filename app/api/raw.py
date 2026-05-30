@@ -41,3 +41,16 @@ def semantic_search(q: str, n: int = 5, source: str = None):
     言葉が違っても意味が近い日記を引く(bge-m3)。
     """
     return vector.search(q, n_results=n, source=source)
+
+@router.get("/recent", response_model=list[schemas.RawEntryResponse])
+def recent_entries(limit: int = 50, offset: int = 0, db: Session = Depends(get_db)):
+    """日付順の一覧。/entries/recent?limit=50&offset=0"""
+    return crud.list_recent(db, limit=limit, offset=offset)
+
+@router.get("/{entry_id}", response_model=schemas.RawEntryResponse)
+def get_entry(entry_id: str, db: Session = Depends(get_db)):
+    """id指定で1件取得。/entries/20220217-084400-diary"""
+    entry = crud.get_by_id(db, entry_id)
+    if entry is None:
+        raise HTTPException(status_code=404, detail="見つかりません")
+    return entry

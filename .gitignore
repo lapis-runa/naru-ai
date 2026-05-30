@@ -43,3 +43,4 @@ __pycache__/
 .venv/
 node_modules/
 
+*:Zone.Identifier

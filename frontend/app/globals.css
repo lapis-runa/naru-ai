@@ -1,0 +1,183 @@
+/* ===== ライト（生成り・桜）===== */
+:root {
+  --bg: #f6eee5;          /* 生成り背景 */
+  --paper: #fffdf4;       /* カード内の薄い紙色 */
+  --text: #3f3a36;        /* 本文 */
+  --muted: #b8afa8;       /* 日付・補助文字 */
+  --line: #d8cec5;        /* 罫線 */
+  --accent: #d96b9b;      /* ピンク */
+  --accent-soft: #f6d6df; /* ハイライト */
+  --brown: #5a342d;       /* カードタイトル */
+  --grain: 0.02;
+}
+
+/* ===== ダーク（夜の和室）===== */
+[data-theme="dark"] {
+  --bg: #211d1b;
+  --paper: #2a2522;
+  --text: #e6ded3;
+  --muted: #7d736b;
+  --line: #3b342f;
+  --accent: #e08bb0;      /* 夜でも沈まない桜 */
+  --accent-soft: #4a3540;
+  --brown: #d8b9a8;
+  --grain: 0.012;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  background-image: radial-gradient(rgba(90,52,45,var(--grain)) 1px, transparent 1px);
+  background-size: 5px 5px;
+  color: var(--text);
+  font-family: "Shippori Mincho", "Noto Serif JP", serif;
+  line-height: 2.05;          /* かなり広い行間 */
+  font-size: 1.05rem;         /* 大きめ */
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.4s ease, color 0.4s ease;
+  min-height: 100vh;
+}
+
+/* 広めの余白・文庫本的な幅 */
+.container { max-width: 680px; margin: 0 auto; padding: 3.5rem 1.8rem 7rem; }
+
+/* ===== 一覧ヘッダー（上部中央タイトル）===== */
+.masthead { text-align: center; padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); margin-bottom: 2rem; }
+.site-title { font-size: 1.8rem; font-weight: 600; letter-spacing: 0.12em; color: var(--text); }
+.site-tagline { font-size: 0.8rem; color: var(--muted); margin-top: 0.7rem; letter-spacing: 0.06em; }
+/* 英字はセリフ体 */
+.serif-en { font-family: Georgia, "Playfair Display", serif; }
+
+/* ===== トップバー（テーマ切替）===== */
+.topbar { display: flex; justify-content: flex-end; margin-bottom: 0.5rem; }
+.theme-toggle {
+  background: none; border: 1px solid var(--line); border-radius: 100px;
+  color: var(--muted); font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 0.75rem; padding: 0.35rem 0.85rem; cursor: pointer; transition: all 0.25s ease;
+}
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ===== モード選択 ===== */
+.mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin: 2rem 0 1rem; }
+.mode-card {
+  display: block; text-decoration: none; color: var(--text);
+  background: var(--paper); border: 1px solid var(--line); border-radius: 4px;
+  padding: 1.8rem 1.4rem; text-align: center;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.mode-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+.mode-card .label { font-size: 1.1rem; font-weight: 600; letter-spacing: 0.08em; }
+.mode-card .sub { font-size: 0.76rem; color: var(--muted); margin-top: 0.5rem; font-family: "Zen Kaku Gothic New", sans-serif; }
+
+/* ===== 記事一覧（カードでなく余白で区切る）===== */
+.section-head { font-size: 0.8rem; letter-spacing: 0.14em; color: var(--muted); margin: 2rem 0 0.5rem; font-family: "Zen Kaku Gothic New", sans-serif; }
+.entry-list { list-style: none; }
+.entry-item {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+  padding: 1.15rem 0; border-bottom: 1px solid var(--line);
+  text-decoration: none; color: var(--text); transition: opacity 0.2s ease;
+}
+.entry-item:hover { opacity: 0.6; }
+/* タイトル左・三点リーダー省略 */
+.entry-title { font-size: 1.05rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+/* 日付右・小さく薄く */
+.entry-date { font-size: 0.78rem; color: var(--muted); font-family: "Zen Kaku Gothic New", sans-serif; white-space: nowrap; }
+.entry-score { font-size: 0.72rem; color: var(--accent); margin-left: 0.6rem; }
+
+/* ===== 編集画面 ===== */
+.edit-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+.bar-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: "Zen Kaku Gothic New", sans-serif; font-size: 0.9rem; color: var(--muted);
+  transition: color 0.2s ease;
+}
+.bar-btn.done { color: var(--accent); font-weight: 600; }
+.bar-btn:hover { color: var(--accent); }
+.bar-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* ほぼ白紙の入力。枠を置かない */
+.editor-title {
+  width: 100%; border: none; background: transparent; color: var(--text);
+  font-family: "Shippori Mincho", serif; font-size: 1.6rem; font-weight: 600;
+  padding: 0.3rem 0; margin-bottom: 1rem; outline: none;
+}
+.editor-title::placeholder { color: var(--muted); opacity: 0.5; }
+.editor-body {
+  width: 100%; border: none; background: transparent; color: var(--text);
+  font-family: "Shippori Mincho", serif; font-size: 1.08rem; line-height: 2.1;
+  padding: 0; min-height: 55vh; resize: none; outline: none;
+}
+.editor-body::placeholder { color: var(--muted); opacity: 0.5; }
+.edit-foot { display: flex; gap: 0.75rem; align-items: center; margin-top: 1.5rem; }
+.select {
+  font-family: "Zen Kaku Gothic New", sans-serif; font-size: 0.85rem;
+  color: var(--text); background: var(--paper); border: 1px solid var(--line);
+  border-radius: 2px; padding: 0.4rem 0.7rem; cursor: pointer;
+}
+
+/* ===== 本文閲覧 ===== */
+.read-back { display: inline-block; margin-bottom: 2rem; }
+.read-title { font-size: 1.7rem; font-weight: 600; line-height: 1.5; }
+.read-date { font-size: 0.8rem; color: var(--muted); margin-top: 0.6rem; font-family: "Zen Kaku Gothic New", sans-serif; }
+.read-body { margin-top: 2rem; font-size: 1.08rem; line-height: 2.15; white-space: pre-wrap; }
+
+/* ===== 検索 ===== */
+.tabs { display: inline-flex; border: 1px solid var(--line); border-radius: 100px; overflow: hidden; margin-bottom: 1.3rem; }
+.tab { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 0.82rem; padding: 0.45rem 1.2rem; background: transparent; border: none; cursor: pointer; color: var(--muted); transition: all 0.2s ease; }
+.tab.active { background: var(--accent); color: #fff; }
+.search-box {
+  width: 100%; font-family: "Shippori Mincho", serif; font-size: 1rem; color: var(--text);
+  background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 0.8rem 1rem; outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+/* ===== フローティングボタン（控えめな「…」）===== */
+.fab {
+  position: fixed; right: 1.6rem; bottom: 1.6rem;
+  width: 3.2rem; height: 3.2rem; border-radius: 50%;
+  background: var(--paper); border: 1px solid var(--line);
+  color: var(--accent); font-size: 1.3rem; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease; cursor: pointer;
+}
+.fab:hover { transform: translateY(-2px); }
+/* AIと話す（控えめ・少し上） */
+.fab-ai { bottom: 5.6rem; font-size: 0.95rem; font-family: "Zen Kaku Gothic New", sans-serif; }
+
+.msg { font-size: 0.82rem; color: var(--accent); font-family: "Zen Kaku Gothic New", sans-serif; }
+.empty { text-align: center; color: var(--muted); padding: 3rem 0; font-size: 0.88rem; }
+.notice { text-align: center; color: var(--muted); padding: 4rem 1rem; line-height: 2; }
+
+/* ===== 押せる要素にはカーソルと触覚的フィードバックを ===== */
+button,
+.back-link,
+.mode-card,
+.entry-item,
+.tab,
+.theme-toggle,
+.fab,
+a[role="button"] {
+  cursor: pointer;
+}
+
+/* クリックした瞬間、わずかに沈む（押した手応え）*/
+button:active,
+.back-link:active,
+.mode-card:active,
+.entry-item:active,
+.tab:active,
+.fab:active {
+  transform: translateY(1px);
+  opacity: 0.85;
+}
+
+/* キーボード操作時の枠（アクセシビリティ）*/
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

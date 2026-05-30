@@ -50,6 +50,21 @@ def create_raw_entry(db: Session, entry: schemas.RawEntryCreate):
     db.add(db_entry)
     db.commit()
     db.refresh(db_entry)
+
+    # 保存した瞬間からChromaDBにも登録 → 意味検索の対象になる
+    # 本文が空(タイトルだけ)の場合はベクトル化しない
+    if entry.content.strip():
+        from app.services import vector
+        vector.add_entry(
+            db_entry.id,
+            db_entry.content,
+            {
+                "date": db_entry.date.isoformat() if db_entry.date else "",
+                "source": db_entry.source or "",
+                "title": db_entry.title or "",
+            },
+        )
+
     return db_entry
 
 def search_by_keyword(db: Session, query: str, limit: int = 20, source: str = None):
@@ -77,3 +92,17 @@ def list_by_date_range(db: Session, start: str, end: str, source: str = None):
     if source:
         q = q.filter(models.RawEntry.source == source)
     return q.order_by(models.RawEntry.date.asc()).all()
+
+def list_recent(db: Session, limit: int = 50, offset: int = 0):
+    """全日記を新しい順に返す(ページング対応)。ホーム画面の一覧用。"""
+    return (
+        db.query(models.RawEntry)
+        .order_by(models.RawEntry.date.desc())
+        .offset(offset)
+        .limit(limit)
+        .all()
+    )
+
+def get_by_id(db: Session, entry_id: str):
+    """idで1件取得。無ければ None。"""
+    return db.query(models.RawEntry).filter(models.RawEntry.id == entry_id).first()
